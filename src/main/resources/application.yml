@@ -1,7 +1,8 @@
 spring:
-  application:
-    name: onboarding-service
-
+  datasource:
+    url: jdbc:mysql://${MYSQLHOST}:${MYSQLPORT}/${MYSQLDATABASE}
+    username: ${MYSQLUSER}
+    password: ${MYSQLPASSWORD}
   jpa:
     hibernate:
       ddl-auto: update
@@ -9,10 +10,23 @@ spring:
       hibernate:
         dialect: org.hibernate.dialect.MySQLDialect
 
-  datasource:
-    url: jdbc:mysql://localhost:3306/onboarding
-    username: root
-    password: cassillas1nengi
+
+
+#spring:
+#  application:
+#    name: onboarding-service
+#
+#  jpa:
+#    hibernate:
+#      ddl-auto: update
+#    properties:
+#      hibernate:
+#        dialect: org.hibernate.dialect.MySQLDialect
+#
+#  datasource:
+#    url: jdbc:mysql://localhost:3306/onboarding
+#    username: root
+#    password: cassillas1nengi
 
 server:
   port: 8085
