@@ -1,5 +1,7 @@
 package org.interswitch.onboardingservice.Services;
 
+import org.interswitch.onboardingservice.DTOs.AccountRequestDTO;
+import org.interswitch.onboardingservice.DTOs.AccountResponseDTO;
 import org.interswitch.onboardingservice.DTOs.PaymentDTO;
 import org.interswitch.onboardingservice.Entities.Accounts;
 
@@ -9,8 +11,8 @@ public interface AccountService {
 
     void createAccountForCustomer(Long customerId);
     Accounts findAccountByCustomerId(Long customerId);
-    Accounts createAccount(Accounts accounts);
-    List<Accounts> findAllCustomerAccounts(String number);
+    Accounts createAccount(AccountRequestDTO accounts);
+    List<AccountResponseDTO> findAllCustomerAccounts(String number);
 
     String debitAccount(PaymentDTO paymentDTO);
 }

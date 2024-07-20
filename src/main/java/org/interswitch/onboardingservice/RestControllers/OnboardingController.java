@@ -1,5 +1,7 @@
 package org.interswitch.onboardingservice.RestControllers;
 
+import org.interswitch.onboardingservice.DTOs.CustomerRequestDTO;
+import org.interswitch.onboardingservice.DTOs.RestResponsePojo;
 import org.interswitch.onboardingservice.Entities.Customer;
 import org.interswitch.onboardingservice.Services.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,9 +23,14 @@ public class OnboardingController {
     }
 
     @PostMapping("/register")
-    public String registerCustomer(@RequestBody Customer customer) {
-        return customerService.registerCustomer(customer);
+    public RestResponsePojo<String> registerCustomer(@RequestBody CustomerRequestDTO customer) {
+        RestResponsePojo<String> restResponsePojo = new RestResponsePojo<>();
+        String result = customerService.registerCustomer(customer);
+        restResponsePojo.setData(result);
+        restResponsePojo.setSuccess(true);
+        return restResponsePojo;
     }
+
 
 }
 

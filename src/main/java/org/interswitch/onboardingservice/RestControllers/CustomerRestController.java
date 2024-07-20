@@ -1,5 +1,7 @@
 package org.interswitch.onboardingservice.RestControllers;
 
+import org.interswitch.onboardingservice.DTOs.CustomerResponseDTO;
+import org.interswitch.onboardingservice.DTOs.RestResponsePojo;
 import org.interswitch.onboardingservice.Entities.Customer;
 import org.interswitch.onboardingservice.Services.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,12 +18,22 @@ public class CustomerRestController {
     private CustomerService customerService;
 
     @GetMapping("getbyid")
-    public Customer getCustomerById(@RequestParam Long customerId){
-        return customerService.findById(customerId);
+    public RestResponsePojo<CustomerResponseDTO> getCustomerById(@RequestParam Long customerId) {
+        RestResponsePojo<CustomerResponseDTO> restResponsePojo = new RestResponsePojo<>();
+        CustomerResponseDTO customer = customerService.findById(customerId);
+        restResponsePojo.setData(customer);
+        restResponsePojo.setSuccess(true);
+        return restResponsePojo;
     }
 
+
     @GetMapping("getbycustno")
-    public Customer getByCustomerNumber(@RequestParam String customerNo){
-        return customerService.findByCustomerNumber(customerNo);
+    public RestResponsePojo<CustomerResponseDTO> getByCustomerNumber(@RequestParam String customerNo) {
+        RestResponsePojo<CustomerResponseDTO> restResponsePojo = new RestResponsePojo<>();
+        CustomerResponseDTO customer = customerService.findByCustomerNumber(customerNo);
+        restResponsePojo.setData(customer);
+        restResponsePojo.setSuccess(true);
+        return restResponsePojo;
     }
+
 }

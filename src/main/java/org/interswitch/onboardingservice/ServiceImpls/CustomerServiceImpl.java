@@ -1,6 +1,8 @@
 package org.interswitch.onboardingservice.ServiceImpls;
 
 import com.netflix.discovery.converters.Auto;
+import org.interswitch.onboardingservice.DTOs.CustomerRequestDTO;
+import org.interswitch.onboardingservice.DTOs.CustomerResponseDTO;
 import org.interswitch.onboardingservice.Entities.Customer;
 import org.interswitch.onboardingservice.Entities.Verify;
 import org.interswitch.onboardingservice.Repositories.CustomerRepository;
@@ -28,7 +30,7 @@ public class CustomerServiceImpl implements CustomerService {
     private AccountService accountService;
 
     @Override
-    public String registerCustomer(Customer customer) {
+    public String registerCustomer(CustomerRequestDTO customer) {
         if(customerRepository.existsByCustomerBVN(customer.getCustomerBVN()) || customerRepository.existsByCustomerNIN(customer.getCustomerNIN())){
           return "Customer already exists";
         }
@@ -63,7 +65,7 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
 
-    public boolean validateCustomer(Customer customer) {
+    public boolean validateCustomer(CustomerRequestDTO customer) {
         List<Verify> verifyingPerson = verifyRepository.findAllByCustomerBVN(customer.getCustomerBVN());
 
         if (verifyingPerson == null || verifyingPerson.isEmpty()) {
@@ -110,12 +112,48 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     @Override
-    public Customer findById(Long customerId){
-        return customerRepository.findById(customerId).orElseThrow(()-> new RuntimeException("Could not find customer"));
+    public CustomerResponseDTO findById(Long customerId) {
+        Customer customer = customerRepository.findById(customerId)
+                .orElseThrow(() -> new RuntimeException("Could not find customer"));
+
+        return CustomerResponseDTO.builder()
+                .id(customer.getId())
+                .emailAddress(customer.getEmailAddress())
+                .phoneNumber1(customer.getPhoneNumber1())
+                .phoneNumber2(customer.getPhoneNumber2())
+                .firstName(customer.getFirstName())
+                .middleName(customer.getMiddleName())
+                .lastName(customer.getLastName())
+                .dateOfBirth(customer.getDateOfBirth())
+                .createdDate(customer.getCreatedDate())
+                .motherMaidenName(customer.getMotherMaidenName())
+                .customerNIN(customer.getCustomerNIN())
+                .customerBVN(customer.getCustomerBVN())
+                .stateOfOrigin(customer.getStateOfOrigin())
+                .build();
+
+
     }
 
+
     @Override
-    public Customer findByCustomerNumber(String customerNo) {
-        return customerRepository.findCustomerByCustomerNo(customerNo);
+    public CustomerResponseDTO findByCustomerNumber(String customerNo) {
+        Customer customer =  customerRepository.findCustomerByCustomerNo(customerNo);
+        return CustomerResponseDTO.builder()
+                .id(customer.getId())
+                .emailAddress(customer.getEmailAddress())
+                .phoneNumber1(customer.getPhoneNumber1())
+                .phoneNumber2(customer.getPhoneNumber2())
+                .firstName(customer.getFirstName())
+                .middleName(customer.getMiddleName())
+                .lastName(customer.getLastName())
+                .dateOfBirth(customer.getDateOfBirth())
+                .createdDate(customer.getCreatedDate())
+                .motherMaidenName(customer.getMotherMaidenName())
+                .customerNIN(customer.getCustomerNIN())
+                .customerBVN(customer.getCustomerBVN())
+                .stateOfOrigin(customer.getStateOfOrigin())
+                .build();
+
     }
 }

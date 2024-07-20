@@ -1,5 +1,7 @@
 package org.interswitch.onboardingservice.ServiceImpls;
 
+import org.interswitch.onboardingservice.DTOs.AccountRequestDTO;
+import org.interswitch.onboardingservice.DTOs.AccountResponseDTO;
 import org.interswitch.onboardingservice.DTOs.PaymentDTO;
 import org.interswitch.onboardingservice.Entities.Accounts;
 import org.interswitch.onboardingservice.Entities.Customer;
@@ -14,6 +16,7 @@ import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 import java.util.Random;
+import java.util.stream.Collectors;
 
 @Service
 public class AccountsServiceImpl implements AccountService {
@@ -61,12 +64,12 @@ public class AccountsServiceImpl implements AccountService {
     }
 
     @Override
-    public Accounts createAccount(Accounts accounts) {
+    public Accounts createAccount(AccountRequestDTO accountRequestDTO) {
 
 
-        Customer customer = customerRepository.findCustomerByCustomerNo(accounts.getCustomerNo());
+        Customer customer = customerRepository.findCustomerByCustomerNo(accountRequestDTO.getCustomerNo());
         if (customer==null){
-            throw new RuntimeException(String.format("Customer with Customer number %s not found!", accounts.getCustomerNo()));
+            throw new RuntimeException(String.format("Customer with Customer number %s not found!", accountRequestDTO.getCustomerNo()));
         }
         Accounts account = new Accounts();
         account.setAccountBalance(BigDecimal.ZERO);
@@ -95,9 +98,27 @@ public class AccountsServiceImpl implements AccountService {
     }
 
     @Override
-    public List<Accounts> findAllCustomerAccounts(String customerNo) {
-        return accountRepository.findAllByCustomerNo(customerNo);
+    public List<AccountResponseDTO> findAllCustomerAccounts(String customerNo) {
+        List<Accounts> accounts = accountRepository.findAllByCustomerNo(customerNo);
+        return accounts.stream().map(account -> AccountResponseDTO.builder()
+                .id(account.getId())
+                .accountNo(account.getAccountNo())
+                .branchNo(account.getBranchNo())
+                .createdBy(account.getCreatedBy())
+                .createdDate(account.getCreatedDate())
+                .customerNo(account.getCustomerNo())
+                .customerName(account.getCustomerName())
+                .customerNIN(account.getCustomerNIN())
+                .customerBVN(account.getCustomerBVN())
+                .isActive(account.getIsActive())
+                .isBlocked(account.getIsBlocked())
+                .isClosed(account.getIsClosed())
+                .isDormant(account.getIsDormant())
+                .isDebitRestricted(account.getIsDebitRestricted())
+                .accountBalance(account.getAccountBalance())
+                .build()).collect(Collectors.toList());
     }
+
 
     @Override
     public String debitAccount(PaymentDTO paymentDTO) {
