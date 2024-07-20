@@ -23,6 +23,7 @@ public class CustomerRestController {
         CustomerResponseDTO customer = customerService.findById(customerId);
         restResponsePojo.setData(customer);
         restResponsePojo.setSuccess(true);
+        restResponsePojo.setMessage("Success");
         return restResponsePojo;
     }
 
@@ -33,6 +34,7 @@ public class CustomerRestController {
         CustomerResponseDTO customer = customerService.findByCustomerNumber(customerNo);
         restResponsePojo.setData(customer);
         restResponsePojo.setSuccess(true);
+        restResponsePojo.setMessage("Success");
         return restResponsePojo;
     }
 

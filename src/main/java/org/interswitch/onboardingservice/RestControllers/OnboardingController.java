@@ -28,6 +28,7 @@ public class OnboardingController {
         String result = customerService.registerCustomer(customer);
         restResponsePojo.setData(result);
         restResponsePojo.setSuccess(true);
+        restResponsePojo.setMessage("Success");
         return restResponsePojo;
     }
 

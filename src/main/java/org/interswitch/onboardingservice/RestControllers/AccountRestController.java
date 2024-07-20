@@ -33,6 +33,7 @@ public class AccountRestController {
         List<AccountResponseDTO> accounts = accountService.findAllCustomerAccounts(customerNo);
         restResponsePojo.setData(accounts);
         restResponsePojo.setSuccess(true);
+        restResponsePojo.setMessage("Success");
         return restResponsePojo;
     }
 
