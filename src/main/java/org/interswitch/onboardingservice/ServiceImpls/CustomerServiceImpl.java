@@ -1,6 +1,6 @@
 package org.interswitch.onboardingservice.ServiceImpls;
 
-import com.netflix.discovery.converters.Auto;
+//import com.netflix.discovery.converters.Auto;
 import org.interswitch.onboardingservice.DTOs.CustomerRequestDTO;
 import org.interswitch.onboardingservice.DTOs.CustomerResponseDTO;
 import org.interswitch.onboardingservice.Entities.Customer;
